@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Graphics.h"
 #include "Vei2.h"
+#include "RectI.h"
 
 class MemeField
 {
@@ -13,8 +15,8 @@ class MemeField
 			REVEALED
 		};
 
-		State state;
-		bool hasMeme;
+		State state = State::HIDDEN;
+		bool hasMeme = false;
 
 	public:
 		void SpawnMeme();
@@ -26,6 +28,8 @@ class MemeField
 		void Reveal();
 		void Flag();
 		void Unflag();
+
+		void Draw( const Vei2& screenPos,Graphics& gfx ) const;
 	};
 
 	static constexpr int GRID_WIDTH = 20;
@@ -38,4 +42,8 @@ class MemeField
 
 public:
 	MemeField( int nMemes );
+
+	RectI GetRect() const;
+
+	void Draw( Graphics& gfx ) const;
 };

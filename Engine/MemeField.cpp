@@ -1,5 +1,6 @@
 #include "MemeField.h"
 
+#include "SpriteCodex.h"
 #include <cassert>
 #include <random>
 
@@ -42,6 +43,30 @@ void MemeField::Tile::Unflag()
 	state = State::HIDDEN;
 }
 
+void MemeField::Tile::Draw( const Vei2& screenPos,Graphics& gfx ) const
+{
+	switch( state )
+	{
+	case State::HIDDEN:
+		SpriteCodex::DrawTileButton( screenPos,gfx );
+		break;
+	case State::FLAGGED:
+		SpriteCodex::DrawTileButton( screenPos,gfx );
+		SpriteCodex::DrawTileFlag( screenPos,gfx );
+		break;
+	case State::REVEALED:
+		if( hasMeme )
+		{
+			SpriteCodex::DrawTile0( screenPos,gfx );
+		}
+		else
+		{
+			SpriteCodex::DrawTileBomb( screenPos,gfx );
+		}
+		break;
+	}
+}
+
 MemeField::Tile& MemeField::TileAt( const Vei2& gridPos )
 {
 	assert(
@@ -78,5 +103,23 @@ MemeField::MemeField( int nMemes )
 		}
 		while( TileAt( gridPos ).HasMeme() );
 		TileAt( gridPos ).SpawnMeme();
+	}
+}
+
+RectI MemeField::GetRect() const
+{
+	return RectI( Vei2( 0,0 ),Vei2( GRID_WIDTH,GRID_HEIGHT ) * SpriteCodex::tileSize );
+}
+
+void MemeField::Draw( Graphics& gfx ) const
+{
+	gfx.DrawRect( GetRect(),SpriteCodex::baseColor );
+
+	for( Vei2 gridPos = { 0,0 }; gridPos.y < GRID_HEIGHT; ++gridPos.y )
+	{
+		for( gridPos.x = 0; gridPos.x < GRID_WIDTH; ++gridPos.x )
+		{
+			TileAt( gridPos ).Draw( gridPos * SpriteCodex::tileSize,gfx );
+		}
 	}
 }
