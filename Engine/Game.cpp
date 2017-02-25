@@ -25,7 +25,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	field( 20 )
+	field( 10 )
 {
 }
 
@@ -39,6 +39,10 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if( wnd.mouse.LeftIsPressed() )
+	{
+		field.OnLeftClick( wnd.mouse.GetPos() );
+	}
 }
 
 void Game::ComposeFrame()

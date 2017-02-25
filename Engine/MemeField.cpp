@@ -57,11 +57,11 @@ void MemeField::Tile::Draw( const Vei2& screenPos,Graphics& gfx ) const
 	case State::REVEALED:
 		if( hasMeme )
 		{
-			SpriteCodex::DrawTile0( screenPos,gfx );
+			SpriteCodex::DrawTileBomb( screenPos,gfx );
 		}
 		else
 		{
-			SpriteCodex::DrawTileBomb( screenPos,gfx );
+			SpriteCodex::DrawTile0( screenPos,gfx );
 		}
 		break;
 	}
@@ -69,21 +69,13 @@ void MemeField::Tile::Draw( const Vei2& screenPos,Graphics& gfx ) const
 
 MemeField::Tile& MemeField::TileAt( const Vei2& gridPos )
 {
-	assert(
-		gridPos.x >= 0 &&
-		gridPos.x < GRID_WIDTH &&
-		gridPos.y >= 0 &&
-		gridPos.y < GRID_HEIGHT );
+	assert( IsInsideField( gridPos ) );
 	return field[ GRID_WIDTH * gridPos.y + gridPos.x ];
 }
 
 const MemeField::Tile& MemeField::TileAt( const Vei2& gridPos ) const
 {
-	assert(
-		gridPos.x >= 0 &&
-		gridPos.x < GRID_WIDTH &&
-		gridPos.y >= 0 &&
-		gridPos.y < GRID_HEIGHT );
+	assert( IsInsideField( gridPos ) );
 	return field[ GRID_WIDTH * gridPos.y + gridPos.x ];
 }
 
@@ -109,6 +101,24 @@ MemeField::MemeField( int nMemes )
 RectI MemeField::GetRect() const
 {
 	return RectI( Vei2( 0,0 ),Vei2( GRID_WIDTH,GRID_HEIGHT ) * SpriteCodex::tileSize );
+}
+
+bool MemeField::IsInsideField( const Vei2& gridPos ) const
+{
+	return
+		gridPos.x >= 0 &&
+		gridPos.x < GRID_WIDTH &&
+		gridPos.y >= 0 &&
+		gridPos.y < GRID_HEIGHT;
+}
+
+void MemeField::OnLeftClick( const Vei2& mousePos )
+{
+	const Vei2 gridPos = mousePos / SpriteCodex::tileSize;
+	if( IsInsideField( gridPos ) && !TileAt( gridPos ).IsRevealed() )
+	{
+		TileAt( gridPos ).Reveal();
+	}
 }
 
 void MemeField::Draw( Graphics& gfx ) const

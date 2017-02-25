@@ -44,6 +44,9 @@ public:
 	MemeField( int nMemes );
 
 	RectI GetRect() const;
+	bool IsInsideField( const Vei2& gridPos ) const;
+
+	void OnLeftClick( const Vei2& mousePos );
 
 	void Draw( Graphics& gfx ) const;
 };
