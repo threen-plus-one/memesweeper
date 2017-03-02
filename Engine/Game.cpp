@@ -43,6 +43,10 @@ void Game::UpdateModel()
 	{
 		field.OnLeftClick( wnd.mouse.GetPos() );
 	}
+	else if( wnd.mouse.RightIsPressed() )
+	{
+		field.OnRightClick( wnd.mouse.GetPos() );
+	}
 }
 
 void Game::ComposeFrame()

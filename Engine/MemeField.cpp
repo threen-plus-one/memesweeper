@@ -123,6 +123,15 @@ void MemeField::OnLeftClick( const Vei2& mousePos )
 	}
 }
 
+void MemeField::OnRightClick( const Vei2 & mousePos )
+{
+	const Vei2 gridPos = mousePos / SpriteCodex::tileSize;
+	if( IsInsideField( gridPos ) && !TileAt( gridPos ).IsRevealed() )
+	{
+		TileAt( gridPos ).ToggleFlagged();
+	}
+}
+
 void MemeField::Draw( Graphics& gfx ) const
 {
 	gfx.DrawRect( GetRect(),SpriteCodex::baseColor );
