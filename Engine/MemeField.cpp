@@ -71,7 +71,7 @@ void MemeField::Tile::Draw( const Vei2& screenPos,Graphics& gfx ) const
 		}
 		else
 		{
-			SpriteCodex::DrawTile0( screenPos,gfx );
+			SpriteCodex::DrawTileNumber( screenPos,nNeighbourMemes,gfx );
 		}
 		break;
 	}
