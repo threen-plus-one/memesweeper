@@ -3,6 +3,7 @@
 #include "SpriteCodex.h"
 #include <cassert>
 #include <random>
+#include <algorithm>
 
 void MemeField::Tile::SpawnMeme()
 {
@@ -45,6 +46,13 @@ void MemeField::Tile::ToggleFlagged()
 	}
 }
 
+void MemeField::Tile::SetNeighbourCount( int neighbourMemeCount )
+{
+	assert( nNeighbourMemes == -1 );
+	assert( neighbourMemeCount >= 0 && neighbourMemeCount <= 8 );
+	nNeighbourMemes = neighbourMemeCount;
+}
+
 void MemeField::Tile::Draw( const Vei2& screenPos,Graphics& gfx ) const
 {
 	switch( state )
@@ -81,6 +89,34 @@ const MemeField::Tile& MemeField::TileAt( const Vei2& gridPos ) const
 	return field[ GRID_WIDTH * gridPos.y + gridPos.x ];
 }
 
+int MemeField::CountNeighbourMemes( const Vei2& gridPos ) const
+{
+	assert( IsInsideField( gridPos ) );
+	const int xStart = std::max( 0,gridPos.x - 1 );
+	const int xEnd = std::min( GRID_WIDTH - 1,gridPos.x + 1 );
+	const int yStart = std::max( 0,gridPos.y - 1 );
+	const int yEnd = std::min( GRID_HEIGHT - 1,gridPos.y + 1 );
+
+	int neighbourCount = 0;
+	for( Vei2 loopVec = { xStart,yStart }; loopVec.y <= yEnd; ++loopVec.y )
+	{
+		for( loopVec.x = xStart; loopVec.x <= xEnd; ++loopVec.x )
+		{
+			if( TileAt( loopVec ).HasMeme() )
+			{
+				++neighbourCount;
+			}
+		}
+	}
+
+	if( TileAt( gridPos ).HasMeme() )
+	{
+		--neighbourCount;
+	}
+
+	return neighbourCount;
+}
+
 MemeField::MemeField( int nMemes )
 {
 	std::random_device rd;
@@ -97,6 +133,14 @@ MemeField::MemeField( int nMemes )
 		}
 		while( TileAt( gridPos ).HasMeme() );
 		TileAt( gridPos ).SpawnMeme();
+	}
+
+	for( Vei2 loopVec = { 0,0 }; loopVec.y < GRID_HEIGHT; ++loopVec.y )
+	{
+		for( loopVec.x = 0; loopVec.x < GRID_WIDTH; ++loopVec.x )
+		{
+			TileAt( loopVec ).SetNeighbourCount( CountNeighbourMemes( loopVec ) );
+		}
 	}
 }
 

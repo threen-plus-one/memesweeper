@@ -17,6 +17,7 @@ class MemeField
 
 		State state = State::HIDDEN;
 		bool hasMeme = false;
+		int nNeighbourMemes = -1;
 
 	public:
 		void SpawnMeme();
@@ -27,6 +28,7 @@ class MemeField
 
 		void Reveal();
 		void ToggleFlagged();
+		void SetNeighbourCount( int neighbourMemeCount );
 
 		void Draw( const Vei2& screenPos,Graphics& gfx ) const;
 	};
@@ -38,6 +40,8 @@ class MemeField
 
 	Tile& TileAt( const Vei2& gridPos );
 	const Tile& TileAt( const Vei2& gridPos ) const;
+
+	int CountNeighbourMemes( const Vei2& gridPos ) const;
 
 public:
 	MemeField( int nMemes );
