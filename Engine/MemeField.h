@@ -30,13 +30,15 @@ class MemeField
 		void ToggleFlagged();
 		void SetNeighbourCount( int neighbourMemeCount );
 
-		void Draw( const Vei2& screenPos,Graphics& gfx ) const;
+		void Draw( const Vei2& screenPos,bool fucked,Graphics& gfx ) const;
 	};
 
 	static constexpr int GRID_WIDTH = 20;
 	static constexpr int GRID_HEIGHT = 16;
 
 	Tile field[ GRID_WIDTH * GRID_HEIGHT ];
+
+	bool fucked = false;
 
 	Tile& TileAt( const Vei2& gridPos );
 	const Tile& TileAt( const Vei2& gridPos ) const;
