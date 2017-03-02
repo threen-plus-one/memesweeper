@@ -31,16 +31,18 @@ void MemeField::Tile::Reveal()
 	state = State::REVEALED;
 }
 
-void MemeField::Tile::Flag()
+void MemeField::Tile::ToggleFlagged()
 {
-	assert( state == State::HIDDEN );
-	state = State::FLAGGED;
-}
+	assert( state != State::REVEALED );
 
-void MemeField::Tile::Unflag()
-{
-	assert( state == State::FLAGGED );
-	state = State::HIDDEN;
+	if( state == State::HIDDEN )
+	{
+		state = State::FLAGGED;
+	}
+	else
+	{
+		state = State::HIDDEN;
+	}
 }
 
 void MemeField::Tile::Draw( const Vei2& screenPos,Graphics& gfx ) const

@@ -26,8 +26,7 @@ class MemeField
 		bool IsFlagged() const;
 
 		void Reveal();
-		void Flag();
-		void Unflag();
+		void ToggleFlagged();
 
 		void Draw( const Vei2& screenPos,Graphics& gfx ) const;
 	};
