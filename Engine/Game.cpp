@@ -39,13 +39,17 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if( wnd.mouse.LeftIsPressed() )
+	while( !wnd.mouse.IsEmpty() )
 	{
-		field.OnLeftClick( wnd.mouse.GetPos() );
-	}
-	else if( wnd.mouse.RightIsPressed() )
-	{
-		field.OnRightClick( wnd.mouse.GetPos() );
+		const Mouse::Event e = wnd.mouse.Read();
+		if( e.GetType() == Mouse::Event::Type::LPress )
+		{
+			field.OnLeftClick( wnd.mouse.GetPos() );
+		}
+		else if( e.GetType() == Mouse::Event::Type::RPress )
+		{
+			field.OnRightClick( wnd.mouse.GetPos() );
+		}
 	}
 }
 
