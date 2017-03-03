@@ -222,7 +222,7 @@ bool MemeField::CheckWinCondition() const
 	return true;
 }
 
-void MemeField::OnLeftClick( const Vei2& mousePos )
+bool MemeField::OnLeftClick( const Vei2& mousePos )
 {
 	if( !fucked )
 	{
@@ -233,9 +233,12 @@ void MemeField::OnLeftClick( const Vei2& mousePos )
 			if( TileAt( gridPos ).HasMeme() )
 			{
 				fucked = true;
+				return true;
 			}
 		}
 	}
+
+	return false;
 }
 
 void MemeField::OnRightClick( const Vei2& mousePos )

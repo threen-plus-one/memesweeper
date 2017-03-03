@@ -54,7 +54,7 @@ public:
 	bool IsInsideField( const Vei2& gridPos ) const;
 	bool CheckWinCondition() const;
 
-	void OnLeftClick( const Vei2& mousePos );
+	bool OnLeftClick( const Vei2& mousePos ); // returns whether you're fucked or not
 	void OnRightClick( const Vei2& mousePos );
 
 	void Draw( Graphics& gfx ) const;

@@ -26,7 +26,8 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	field( 20 )
+	field( 20 ),
+	sndGameover( L"Sounds\\spayed.wav" )
 {
 }
 
@@ -47,7 +48,10 @@ void Game::UpdateModel()
 			const Mouse::Event e = wnd.mouse.Read();
 			if( e.GetType() == Mouse::Event::Type::LPress )
 			{
-				field.OnLeftClick( wnd.mouse.GetPos() );
+				if( gameOver = field.OnLeftClick( wnd.mouse.GetPos() ) )
+				{
+					sndGameover.Play();
+				}
 			}
 			else if( e.GetType() == Mouse::Event::Type::RPress )
 			{
