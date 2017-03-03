@@ -41,7 +41,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if( !yourWinner )
+	if( !yourWinner && !gameOver )
 	{
 		while( !wnd.mouse.IsEmpty() )
 		{
