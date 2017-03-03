@@ -35,6 +35,8 @@ class MemeField
 
 	static constexpr int GRID_WIDTH = 20;
 	static constexpr int GRID_HEIGHT = 16;
+	static constexpr int FIELD_X = 240;
+	static constexpr int FIELD_Y = 172;
 
 	Tile field[ GRID_WIDTH * GRID_HEIGHT ];
 

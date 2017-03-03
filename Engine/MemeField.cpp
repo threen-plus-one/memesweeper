@@ -187,7 +187,7 @@ MemeField::MemeField( int nMemes )
 
 RectI MemeField::GetRect() const
 {
-	return RectI( Vei2( 0,0 ),Vei2( GRID_WIDTH,GRID_HEIGHT ) * SpriteCodex::tileSize );
+	return RectI( Vei2( FIELD_X,FIELD_Y ),Vei2( GRID_WIDTH,GRID_HEIGHT ) * SpriteCodex::tileSize + Vei2( FIELD_X,FIELD_Y ) );
 }
 
 bool MemeField::IsInsideField( const Vei2& gridPos ) const
@@ -226,7 +226,7 @@ void MemeField::OnLeftClick( const Vei2& mousePos )
 {
 	if( !fucked )
 	{
-		const Vei2 gridPos = mousePos / SpriteCodex::tileSize;
+		const Vei2 gridPos = ( mousePos - Vei2( FIELD_X,FIELD_Y ) ) / SpriteCodex::tileSize;
 		if( IsInsideField( gridPos ) && !TileAt( gridPos ).IsRevealed() && !TileAt( gridPos ).IsFlagged() )
 		{
 			TileAt( gridPos ).Reveal();
@@ -242,7 +242,7 @@ void MemeField::OnRightClick( const Vei2& mousePos )
 {
 	if( !fucked )
 	{
-		const Vei2 gridPos = mousePos / SpriteCodex::tileSize;
+		const Vei2 gridPos = ( mousePos - Vei2( FIELD_X,FIELD_Y ) ) / SpriteCodex::tileSize;
 		if( IsInsideField( gridPos ) && !TileAt( gridPos ).IsRevealed() )
 		{
 			TileAt( gridPos ).ToggleFlagged();
@@ -258,7 +258,7 @@ void MemeField::Draw( Graphics& gfx ) const
 	{
 		for( gridPos.x = 0; gridPos.x < GRID_WIDTH; ++gridPos.x )
 		{
-			TileAt( gridPos ).Draw( gridPos * SpriteCodex::tileSize,fucked,gfx );
+			TileAt( gridPos ).Draw( gridPos * SpriteCodex::tileSize + Vei2( FIELD_X,FIELD_Y ),fucked,gfx );
 		}
 	}
 }
