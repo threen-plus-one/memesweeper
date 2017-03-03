@@ -199,6 +199,29 @@ bool MemeField::IsInsideField( const Vei2& gridPos ) const
 		gridPos.y < GRID_HEIGHT;
 }
 
+bool MemeField::CheckWinCondition() const
+{
+	for( const Tile& tile : field )
+	{
+		if( tile.HasMeme() )
+		{
+			if( !tile.IsFlagged() )
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if( !tile.IsRevealed() )
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
 void MemeField::OnLeftClick( const Vei2& mousePos )
 {
 	if( !fucked )

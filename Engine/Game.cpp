@@ -39,21 +39,30 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	while( !wnd.mouse.IsEmpty() )
+	if( !yourWinner )
 	{
-		const Mouse::Event e = wnd.mouse.Read();
-		if( e.GetType() == Mouse::Event::Type::LPress )
+		while( !wnd.mouse.IsEmpty() )
 		{
-			field.OnLeftClick( wnd.mouse.GetPos() );
+			const Mouse::Event e = wnd.mouse.Read();
+			if( e.GetType() == Mouse::Event::Type::LPress )
+			{
+				field.OnLeftClick( wnd.mouse.GetPos() );
+			}
+			else if( e.GetType() == Mouse::Event::Type::RPress )
+			{
+				field.OnRightClick( wnd.mouse.GetPos() );
+			}
 		}
-		else if( e.GetType() == Mouse::Event::Type::RPress )
-		{
-			field.OnRightClick( wnd.mouse.GetPos() );
-		}
+
+		yourWinner = field.CheckWinCondition();
 	}
 }
 
 void Game::ComposeFrame()
 {
 	field.Draw( gfx );
+
+	if( yourWinner )
+	{
+	}
 }

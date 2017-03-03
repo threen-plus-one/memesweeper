@@ -50,6 +50,7 @@ public:
 
 	RectI GetRect() const;
 	bool IsInsideField( const Vei2& gridPos ) const;
+	bool CheckWinCondition() const;
 
 	void OnLeftClick( const Vei2& mousePos );
 	void OnRightClick( const Vei2& mousePos );
