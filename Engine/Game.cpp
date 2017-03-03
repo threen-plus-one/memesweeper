@@ -20,6 +20,7 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "SpriteCodex.h"
 
 Game::Game( MainWindow& wnd )
 	:
@@ -64,5 +65,6 @@ void Game::ComposeFrame()
 
 	if( yourWinner )
 	{
+		SpriteCodex::DrawWin( Vei2( 400,300 ),gfx );
 	}
 }
